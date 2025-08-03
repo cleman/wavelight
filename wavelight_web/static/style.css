@@ -1,0 +1,26 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background: #111;
+    color: white;
+}
+
+.oval-container {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 0 auto;
+    background-color: #222;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.led {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #444;
+    transform: translate(-50%, -50%);
+    opacity: 0.1;
+}

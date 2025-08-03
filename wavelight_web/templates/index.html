@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Display</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .led-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+        .led {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="led-container">
+        {% for led in leds %}
+            <div class="led"
+                style="
+                    left: {{ led.x }}px;
+                    top: {{ led.y }}px;
+                    background-color: rgb({{ led.r }}, {{ led.g }}, {{ led.b }});
+                    position: absolute;
+                    z-index: {{ leds|length - loop.index0 }};
+                ">
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        const ledElements = document.querySelectorAll('.led');
+
+        function updateLEDColors() {
+            fetch('/led_data')
+                .then(response => response.json())
+                .then(data => {
+                    data.leds.forEach((led, i) => {
+                        const el = ledElements[i];
+                        el.style.backgroundColor = `rgb(${led.r}, ${led.g}, ${led.b})`;
+                    });
+                })
+                .catch(err => {
+                    console.error('Erreur de récupération des données LED :', err);
+                });
+        }
+
+        setInterval(updateLEDColors, 10); // Mise à jour toutes les 500 ms
+    </script>
+</body>
+</html>
